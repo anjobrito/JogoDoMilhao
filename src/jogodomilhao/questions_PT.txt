@@ -1,0 +1,95 @@
+Qual é a capital do Brasil?|São Paulo|Brasília|Rio de Janeiro|Salvador|B
+Quem escreveu "Dom Casmurro"?|Machado de Assis|José de Alencar|Carlos Drummond de Andrade|Jorge Amado|A
+Qual é o maior planeta do sistema solar?|Terra|Marte|Júpiter|Saturno|C
+Em que ano o Brasil foi descoberto?|1500|1492|1808|1822|A
+Qual o idioma oficial do Brasil?|Português|Espanhol|Inglês|Francês|A
+Qual é o símbolo químico do ouro?|Au|Ag|Fe|Pb|A
+Quem pintou "Mona Lisa"?|Vincent Van Gogh|Leonardo da Vinci|Pablo Picasso|Claude Monet|B
+Qual é o país mais populoso do mundo?|Índia|Estados Unidos|China|Rússia|C
+Qual é a moeda oficial do Japão?|Yen|Dólar|Euro|Peso|A
+Qual o elemento principal do ar que respiramos?|Oxigênio|Nitrogênio|Dióxido de Carbono|Hélio|B
+Qual é a capital da França?|Paris|Londres|Berlim|Madri|A
+Quem descobriu a América?|Cristóvão Colombo|Pedro Álvares Cabral|Vasco da Gama|Fernão de Magalhães|A
+Qual o maior oceano do planeta?|Atlântico|Índico|Ártico|Pacífico|D
+Em que continente fica a Argentina?|África|Europa|América do Sul|Ásia|C
+Qual é o time brasileiro com mais títulos da Copa Libertadores?|Santos|Palmeiras|Grêmio|São Paulo|B
+Quem foi o primeiro presidente do Brasil?|Getúlio Vargas|Juscelino Kubitschek|Deodoro da Fonseca|Dilma Rousseff|C
+Qual a fórmula química da água?|H2O|CO2|NaCl|O2|A
+Qual é a capital da Argentina?|Buenos Aires|Montevidéu|Santiago|Lima|A
+Qual o esporte mais popular do Brasil?|Futebol|Vôlei|Basquete|Tênis|A
+Qual é a maior floresta tropical do mundo?|Floresta Amazônica|Floresta Negra|Taiga|Cerrado|A
+Qual é o maior deserto do mundo?|Sahara|Gobi|Kalahari|Atacama|A
+Qual é o animal símbolo da Austrália?|Canguru|Leão|Elefante|Panda|A
+Qual é o planeta conhecido como "Planeta Vermelho"?|Júpiter|Marte|Vênus|Mercúrio|B
+Qual é a capital da Espanha?|Barcelona|Madri|Valência|Sevilha|B
+Quem escreveu "O Pequeno Príncipe"?|Antoine de Saint-Exupéry|Victor Hugo|Charles Dickens|Mark Twain|A
+Qual é o maior rio do mundo?|Nilo|Amazonas|Mississippi|Yangtzé|B
+Qual é o metal mais leve?|Ouro|Alumínio|Lítio|Cobre|C
+Qual a velocidade da luz em km/s?|300.000|150.000|1.000|50.000|A
+Quem foi o responsável pela teoria da relatividade?|Isaac Newton|Albert Einstein|Galileu Galilei|Nikola Tesla|B
+Qual é a capital da Itália?|Roma|Milão|Veneza|Florença|A
+Qual é o maior órgão do corpo humano?|Fígado|Coração|Pele|Pulmão|C
+Qual é a unidade básica da vida?|Átomo|Célula|Molécula|Organismo|B
+Qual é o maior estado brasileiro em área?|Amazonas|São Paulo|Bahia|Minas Gerais|A
+Qual a capital do estado de São Paulo?|Campinas|São Paulo|Santos|Sorocaba|B
+Qual o símbolo químico do ferro?|Fe|Ag|Cu|Pb|A
+Qual é o continente mais populoso?|África|Europa|Ásia|América|C
+Qual é o autor de "Memórias Póstumas de Brás Cubas"?|Machado de Assis|José de Alencar|Clarice Lispector|Graciliano Ramos|A
+Qual a montanha mais alta do mundo?|Everest|K2|Annapurna|Makalu|A
+Quem é conhecido como o "Pai da Medicina"?|Hipócrates|Galen|Avicena|Pasteur|A
+Qual é o nome do processo de transformação de lagarta em borboleta?|Metamorfose|Fotossíntese|Respiração|Evolução|A
+Qual é o nome da primeira mulher no espaço?|Valentina Tereshkova|Sally Ride|Mae Jemison|Peggy Whitson|A
+Qual o animal mais rápido do mundo?|Falcão-peregrino|Leopardo|Guepardo|Águia|A
+Qual é o principal ingrediente do guacamole?|Tomate|Abacate|Cebola|Pimenta|B
+Qual é a capital do Canadá?|Toronto|Vancouver|Ottawa|Montreal|C
+Qual a cor da esmeralda?|Verde|Azul|Vermelho|Amarelo|A
+Qual é a capital da Alemanha?|Berlim|Munique|Frankfurt|Hamburgo|A
+Qual é o nome da maior lua de Saturno?|Titã|Europa|Ganimedes|Calisto|A
+Qual é o nome do principal autor de "O Senhor dos Anéis"?|J.K. Rowling|J.R.R. Tolkien|George R.R. Martin|C.S. Lewis|B
+Qual é o símbolo químico da prata?|Ag|Au|Pt|Cu|A
+Qual é o nome do personagem principal de "Harry Potter"?|Ron Weasley|Hermione Granger|Harry Potter|Draco Malfoy|C
+Qual é o planeta mais próximo do sol?|Mercúrio|Vênus|Terra|Marte|A
+Qual a capital da Austrália?|Sydney|Melbourne|Canberra|Perth|C
+Quem inventou o telefone?|Alexander Graham Bell|Thomas Edison|Nikola Tesla|Guglielmo Marconi|A
+Qual a moeda dos Estados Unidos?|Dólar|Euro|Libra|Peso|A
+Qual é a capital da Rússia?|Moscou|São Petersburgo|Vladivostok|Kazan|A
+Qual é a maior ilha do mundo?|Groenlândia|Madagascar|Sumatra|Borneo|A
+Qual é o nome da força que mantém os planetas em órbita?|Gravidade|Magnetismo|Energia|Inércia|A
+Qual é a unidade de medida da intensidade elétrica?|Ampere|Volt|Watt|Ohm|A
+Qual o maior animal terrestre?|Elefante|Rinoceronte|Hipopótamo|Girafa|A
+Quem pintou "Guernica"?|Pablo Picasso|Salvador Dalí|Frida Kahlo|Diego Rivera|A
+Qual é o nome do maior oceano do mundo?|Pacífico|Atlântico|Índico|Ártico|A
+Qual é o nome do processo pelo qual as plantas produzem seu alimento?|Fotossíntese|Respiração|Transpiração|Germinação|A
+Qual é a capital do México?|Cidade do México|Guadalajara|Monterrey|Puebla|A
+Qual é o maior estado dos Estados Unidos?|Alasca|Texas|Califórnia|Montana|A
+Qual é o nome do inventor da lâmpada?|Thomas Edison|Nikola Tesla|Alexander Graham Bell|Benjamin Franklin|A
+Qual é o nome do escritor de "1984"?|George Orwell|Aldous Huxley|Ray Bradbury|Isaac Asimov|A
+Qual é o maior mamífero marinho?|Baleia-azul|Orca|Golfinho|Leão-marinho|A
+Qual é o nome da capital da Argentina?|Buenos Aires|Rosário|Córdoba|Mendoza|A
+Qual é o maior planeta do sistema solar?|Júpiter|Saturno|Netuno|Urano|A
+Qual é o nome da estrela mais próxima da Terra?|Sol|Sirius|Alpha Centauri|Vega|A
+Qual é o país com a maior produção de café?|Brasil|Colômbia|Etiópia|Vietnã|A
+Qual é o nome do maior deserto quente do mundo?|Sahara|Gobi|Kalahari|Sonora|A
+Qual é o maior lago do mundo?|Mar Cáspio|Lago Vitória|Lago Superior|Lago Michigan|A
+Qual é o nome da maior cadeia montanhosa do mundo?|Himalaia|Andes|Alpes|Rockies|A
+Qual é o nome do processo de divisão celular?|Mitose|Meiose|Fissão|Fusão|A
+Qual é a principal função dos glóbulos vermelhos?|Transportar oxigênio|Produzir anticorpos|Coagular sangue|Defender contra vírus|A
+Qual é o nome do país conhecido como "Terra do Sol Nascente"?|Japão|China|Coreia do Sul|Tailândia|A
+Qual é o maior órgão do corpo humano?|Pele|Fígado|Coração|Rim|A
+Qual é o nome do autor de "Cem Anos de Solidão"?|Gabriel García Márquez|Pablo Neruda|Mario Vargas Llosa|Jorge Luis Borges|A
+Qual é o nome da capital do Chile?|Santiago|Valparaíso|Concepción|Antofagasta|A
+Qual é o nome do processo pelo qual a água se transforma em vapor?|Evaporação|Condensação|Precipitação|Sublimação|A
+Qual é o nome do gás que as plantas liberam durante a fotossíntese?|Oxigênio|Dióxido de Carbono|Nitrogênio|Hélio|A
+Qual é o nome do maior país do mundo em área?|Rússia|Canadá|China|Estados Unidos|A
+Qual é o nome do animal mais pesado do mundo?|Baleia-azul|Elefante-africano|Tubarão-branco|Hipopótamo|A
+Qual é a capital da Índia?|Nova Délhi|Mumbai|Calcutá|Chennai|A
+Qual é o nome do inventor da internet?|Tim Berners-Lee|Bill Gates|Steve Jobs|Mark Zuckerberg|A
+Qual é o nome do planeta conhecido como "Planeta Azul"?|Terra|Netuno|Urano|Saturno|A
+Qual é o nome da maior floresta tropical do mundo?|Floresta Amazônica|Floresta do Congo|Taiga Siberiana|Floresta Negra|A
+Qual é o nome do maior rio da África?|Nilo|Congo|Zambeze|Níger|A
+Qual é o nome do maior animal terrestre?|Elefante-africano|Rinoceronte|Hipopótamo|Girafa|A
+Qual é o nome do maior sistema de recifes de coral do mundo?|Grande Barreira de Coral|Recife de Belize|Recife de Maldivas|Recife da Austrália Ocidental|A
+Qual é o nome da maior montanha da América do Sul?|Aconcágua|Pico da Neblina|Monte Roraima|Pico Bolívar|A
+Qual é o nome da maior capital da América Latina?|São Paulo|Buenos Aires|Cidade do México|Rio de Janeiro|A
+Qual é o nome do país que tem o maior número de línguas oficiais?|África do Sul|Suíça|Índia|Canadá|A
+Qual é o nome da maior capital do Brasil?|São Paulo|Rio de Janeiro|Brasília|Salvador|A

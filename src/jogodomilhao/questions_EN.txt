@@ -1,0 +1,104 @@
+What is the capital of France?|Paris|Berlin|Madrid|Rome|A
+Which planet is known as the "Red Planet"?|Mars|Venus|Jupiter|Saturn|A
+Who wrote "Romeo and Juliet"?|William Shakespeare|Mark Twain|Charles Dickens|Jane Austen|A
+What is the largest ocean on Earth?|Pacific|Atlantic|Indian|Arctic|A
+What gas do plants absorb from the atmosphere?|Carbon dioxide|Oxygen|Nitrogen|Hydrogen|A
+Who was the first person to walk on the moon?|Neil Armstrong|Buzz Aldrin|Yuri Gagarin|John Glenn|A
+Which country is home to the Great Pyramid of Giza?|Egypt|Mexico|Peru|India|A
+What is the smallest country in the world by area?|Vatican City|Monaco|Nauru|San Marino|A
+What is the chemical symbol for water?|H2O|CO2|NaCl|O2|A
+What language has the most native speakers worldwide?|Mandarin Chinese|English|Spanish|Hindi|A
+What is the tallest mountain in the world?|Mount Everest|K2|Kangchenjunga|Lhotse|A
+What is the currency of Japan?|Yen|Dollar|Euro|Peso|A
+Who discovered penicillin?|Alexander Fleming|Louis Pasteur|Marie Curie|Isaac Newton|A
+What is the longest river in the world?|Nile|Amazon|Yangtze|Mississippi|B
+What is the main ingredient in sushi?|Rice|Fish|Seaweed|Soy Sauce|A
+Who painted the ceiling of the Sistine Chapel?|Michelangelo|Leonardo da Vinci|Raphael|Donatello|A
+Which animal is known as the "King of the Jungle"?|Lion|Tiger|Elephant|Cheetah|A
+What is the hardest natural substance on Earth?|Diamond|Gold|Iron|Quartz|A
+In which continent is the Sahara Desert located?|Africa|Asia|Australia|South America|A
+What is the process by which plants make their food?|Photosynthesis|Respiration|Digestion|Transpiration|A
+Which country is famous for inventing pizza?|Italy|France|USA|Mexico|A
+What does DNA stand for?|Deoxyribonucleic Acid|Dinucleic Acid|Deoxynucleic Acid|Dioxyribonucleic Acid|A
+Who is the author of "1984"?|George Orwell|Aldous Huxley|Ray Bradbury|J.K. Rowling|A
+Which element has the chemical symbol "O"?|Oxygen|Gold|Osmium|Silver|A
+What year did World War II end?|1945|1939|1918|1963|A
+Who was the first President of the United States?|George Washington|Abraham Lincoln|Thomas Jefferson|John Adams|A
+Which continent is Australia part of?|Australia|Asia|Europe|Africa|A
+What is the main language spoken in Brazil?|Portuguese|Spanish|French|English|A
+What is the freezing point of water in Celsius?|0|32|100|-1|A
+Which instrument has keys, pedals, and strings?|Piano|Guitar|Violin|Flute|A
+Who painted the Mona Lisa?|Leonardo da Vinci|Vincent Van Gogh|Pablo Picasso|Claude Monet|A
+What is the largest mammal in the world?|Blue Whale|Elephant|Giraffe|Hippopotamus|A
+What do bees produce?|Honey|Milk|Silk|Wax|A
+Which country is known as the Land of the Rising Sun?|Japan|China|Thailand|Korea|A
+Who invented the telephone?|Alexander Graham Bell|Thomas Edison|Nikola Tesla|Guglielmo Marconi|A
+What is the boiling point of water in Celsius?|100|0|212|50|A
+Which planet is closest to the Sun?|Mercury|Venus|Earth|Mars|A
+What is the main ingredient of guacamole?|Avocado|Tomato|Onion|Pepper|A
+Who is known as the "Father of Modern Physics"?|Albert Einstein|Isaac Newton|Galileo Galilei|Nikola Tesla|A
+Which country has the most population?|China|India|USA|Indonesia|A
+What is the largest desert in the world?|Sahara|Gobi|Kalahari|Arabian|A
+What is the symbol for gold on the periodic table?|Au|Ag|Gd|Ga|A
+Who painted "Starry Night"?|Vincent Van Gogh|Claude Monet|Pablo Picasso|Salvador Dalí|A
+Which organ pumps blood through the body?|Heart|Lungs|Kidneys|Liver|A
+What is the capital city of Australia?|Canberra|Sydney|Melbourne|Brisbane|A
+Which animal is known for its black and white stripes?|Zebra|Tiger|Panda|Skunk|A
+What is the tallest building in the world?|Burj Khalifa|Empire State Building|Shanghai Tower|One World Trade Center|A
+Which gas do humans breathe in?|Oxygen|Carbon dioxide|Nitrogen|Helium|A
+What does WWW stand for?|World Wide Web|World Web Wide|Wide World Web|Web World Wide|A
+What is the square root of 64?|8|6|7|9|A
+Which country is famous for the Eiffel Tower?|France|Italy|Germany|Spain|A
+What is the most spoken language in the world?|Mandarin|English|Spanish|Hindi|A
+What is the primary color that when mixed with blue makes green?|Yellow|Red|Black|White|A
+Which ocean is the Bermuda Triangle located in?|Atlantic|Pacific|Indian|Arctic|A
+Who is the author of "The Hobbit"?|J.R.R. Tolkien|C.S. Lewis|George R.R. Martin|J.K. Rowling|A
+What is the largest planet in our solar system?|Jupiter|Saturn|Neptune|Earth|A
+What is the fastest land animal?|Cheetah|Lion|Tiger|Leopard|A
+What is the main gas responsible for global warming?|Carbon dioxide|Oxygen|Methane|Nitrogen|A
+Who discovered America?|Christopher Columbus|Vasco da Gama|Ferdinand Magellan|Leif Erikson|A
+Which country is known for the Great Wall?|China|Japan|India|Mongolia|A
+What is the freezing point of water in Fahrenheit?|32|0|100|212|A
+Who was the first woman to fly solo across the Atlantic Ocean?|Amelia Earhart|Marie Curie|Harriet Quimby|Bessie Coleman|A
+Which planet has rings?|Saturn|Jupiter|Mars|Venus|A
+What is the name of the longest river in South America?|Amazon|Nile|Yangtze|Mississippi|A
+Which country hosts the annual Oktoberfest festival?|Germany|Austria|Switzerland|Netherlands|A
+What is the hardest rock?|Diamond|Granite|Marble|Quartz|A
+Who invented the light bulb?|Thomas Edison|Nikola Tesla|Alexander Graham Bell|Benjamin Franklin|A
+Which continent has the most countries?|Africa|Asia|Europe|South America|A
+What is the name of the first artificial satellite?|Sputnik|Explorer|Hubble|Voyager|A
+Who was the first human to journey into space?|Yuri Gagarin|Neil Armstrong|Buzz Aldrin|John Glenn|A
+Which ocean is the smallest?|Arctic|Atlantic|Indian|Pacific|A
+What is the name of the famous clock tower in London?|Big Ben|Eiffel Tower|Leaning Tower of Pisa|Statue of Liberty|A
+Which country is the origin of the Olympic Games?|Greece|Italy|Egypt|China|A
+What is the largest island in the world?|Greenland|Australia|Madagascar|Borneo|A
+Who is the author of "Pride and Prejudice"?|Jane Austen|Charlotte Brontë|Emily Dickinson|Mary Shelley|A
+Which animal is known to have the longest lifespan?|Tortoise|Elephant|Whale|Parrot|A
+What is the most abundant element in the Earth's atmosphere?|Nitrogen|Oxygen|Carbon dioxide|Hydrogen|A
+Which planet is known as the "Morning Star"?|Venus|Mars|Mercury|Jupiter|A
+What is the name of the fairy in "Peter Pan"?|Tinker Bell|Wendy|Tiger Lily|Captain Hook|A
+Who is the main protagonist in the "Harry Potter" series?|Harry Potter|Ron Weasley|Hermione Granger|Draco Malfoy|A
+Which superhero has a hammer called Mjolnir?|Thor|Iron Man|Captain America|Hulk|A
+In which movie does the character Jack Sparrow appear?|Pirates of the Caribbean|The Avengers|Star Wars|Lord of the Rings|A
+Who is the villain in "The Lion King"?|Scar|Mufasa|Simba|Timon|A
+What is the name of the robot in "Wall-E"?|Wall-E|Eve|R2-D2|C-3PO|A
+Who is the main character in "The Matrix"?|Neo|Morpheus|Trinity|Agent Smith|A
+Which superhero uses a shield with a star?|Captain America|Iron Man|Spider-Man|Black Panther|A
+What is the name of the city where Batman operates?|Gotham|Metropolis|Star City|Central City|A
+Who is the protagonist of the "Toy Story" movies?|Woody|Buzz Lightyear|Jessie|Rex|A
+Which movie features the song "Let It Go"?|Frozen|Moana|Tangled|Brave|A
+Who is the leader of the Autobots in "Transformers"?|Optimus Prime|Bumblebee|Megatron|Starscream|A
+What is the name of the princess in "Aladdin"?|Jasmine|Belle|Ariel|Cinderella|A
+Which movie features a character named Elsa?|Frozen|Tangled|Brave|Frozen II|A
+Who is the villain in "Star Wars: The Empire Strikes Back"?|Darth Vader|Emperor Palpatine|Boba Fett|Kylo Ren|A
+What is the name of the hobbit who carries the ring in "The Lord of the Rings"?|Frodo|Bilbo|Sam|Gollum|A
+Who plays Iron Man in the Marvel movies?|Robert Downey Jr.|Chris Evans|Chris Hemsworth|Mark Ruffalo|A
+Which movie features a talking donkey named Donkey?|Shrek|Madagascar|Kung Fu Panda|Zootopia|A
+Who is the protagonist in "The Hunger Games"?|Katniss Everdeen|Peeta Mellark|Gale Hawthorne|Primrose Everdeen|A
+Which movie is about a clownfish looking for his son?|Finding Nemo|Shark Tale|The Little Mermaid|Finding Dory|A
+Who is the director of "Jurassic Park"?|Steven Spielberg|James Cameron|Peter Jackson|George Lucas|A
+Which movie series features a character named "Forrest Gump"?|Forrest Gump|Cast Away|Saving Private Ryan|The Green Mile|A
+What is the name of the giant robot in "Pacific Rim"?|Gipsy Danger|Cherno Alpha|Striker Eureka|Crimson Typhoon|A
+Who is the female lead in "Titanic"?|Rose|Jack|Cal|Molly|A
+Which movie features a magical school called Hogwarts?|Harry Potter|Percy Jackson|Twilight|The Chronicles of Narnia|A
+Who is the protagonist in "Black Panther"?|T'Challa|Killmonger|Shuri|Nakia|A
