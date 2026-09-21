@@ -93,3 +93,40 @@ Qual é o nome da maior montanha da América do Sul?|Aconcágua|Pico da Neblina|
 Qual é o nome da maior capital da América Latina?|São Paulo|Buenos Aires|Cidade do México|Rio de Janeiro|A
 Qual é o nome do país que tem o maior número de línguas oficiais?|África do Sul|Suíça|Índia|Canadá|A
 Qual é o nome da maior capital do Brasil?|São Paulo|Rio de Janeiro|Brasília|Salvador|A
+# --- Banco por dificuldade (formato: NIVEL|PERGUNTA|A|B|C|D|CORRETA) ---
+EASY|Quantos lados tem um triângulo?|3|4|5|6|A
+EASY|Qual planeta habitamos?|Marte|Terra|Vênus|Júpiter|B
+EASY|Quantos minutos há em uma hora?|30|45|60|90|C
+EASY|Qual destes animais é um mamífero?|Tubarão|Golfinho|Sardinha|Polvo|B
+EASY|Qual é o resultado de 9 x 7?|54|56|63|72|C
+EASY|Em qual continente fica o Brasil?|Europa|América do Sul|África|Ásia|B
+EASY|Qual instrumento mede a temperatura?|Barômetro|Termômetro|Higrômetro|Altímetro|B
+EASY|Qual é a cor resultante da mistura de azul e amarelo?|Verde|Roxo|Laranja|Marrom|A
+EASY|Qual destes é um estado físico da água?|Plasma solar|Sólido|Metal|Vácuo|B
+EASY|Quem escreveu a série Harry Potter?|J.K. Rowling|Agatha Christie|Virginia Woolf|Jane Austen|A
+EASY|Qual é o satélite natural da Terra?|Lua|Sol|Marte|Vênus|A
+EASY|Qual número romano representa dez?|V|X|L|C|B
+HARD|Qual tratado de 1494 dividiu áreas de exploração entre Portugal e Espanha?|Tratado de Utrecht|Tratado de Tordesilhas|Tratado de Madri|Tratado de Versalhes|B
+HARD|Qual físico formulou as equações que unificaram eletricidade e magnetismo no século XIX?|James Clerk Maxwell|Michael Faraday|Niels Bohr|Erwin Schrödinger|A
+HARD|Em qual obra de Machado de Assis aparece o narrador Brás Cubas?|Quincas Borba|Dom Casmurro|Memórias Póstumas de Brás Cubas|Esaú e Jacó|C
+HARD|Qual elemento químico possui número atômico 74?|Tungstênio|Titânio|Tântalo|Telúrio|A
+HARD|Qual civilização construiu a cidade de Machu Picchu?|Asteca|Maia|Inca|Olmeca|C
+HARD|Qual filósofo escreveu a obra Crítica da Razão Pura?|Immanuel Kant|David Hume|René Descartes|Baruch Spinoza|A
+HARD|Qual cientista propôs as três leis do movimento planetário?|Johannes Kepler|Tycho Brahe|Edwin Hubble|Blaise Pascal|A
+HARD|Qual estreito separa a Ásia da América do Norte?|Gibraltar|Bering|Bósforo|Magalhães|B
+HARD|Qual compositor escreveu a Nona Sinfonia conhecida pelo tema Ode à Alegria?|Mozart|Bach|Beethoven|Haydn|C
+HARD|Qual país africano era historicamente conhecido como Abissínia?|Etiópia|Eritreia|Sudão|Somália|A
+HARD|Qual organela celular é responsável principalmente pela produção de ATP na respiração aeróbica?|Ribossomo|Lisossomo|Mitocôndria|Complexo de Golgi|C
+HARD|Qual romance de George Orwell apresenta a fazenda governada por animais após uma revolução?|1984|A Revolução dos Bichos|Na Pior em Paris e Londres|Dias na Birmânia|B
+EXPERT|Qual princípio da mecânica quântica afirma que posição e momento não podem ser simultaneamente determinados com precisão arbitrária?|Princípio de Pauli|Princípio da Incerteza de Heisenberg|Princípio de Huygens|Princípio de Arquimedes|B
+EXPERT|Qual matemático demonstrou em 1994 o Último Teorema de Fermat?|Andrew Wiles|John Nash|Grigori Perelman|Terence Tao|A
+EXPERT|Qual imperador bizantino ordenou a compilação do Corpus Juris Civilis?|Justiniano I|Constantino XI|Teodósio I|Heráclio|A
+EXPERT|Qual lua de Saturno possui uma atmosfera densa rica em nitrogênio?|Encélado|Mimas|Titã|Jápeto|C
+EXPERT|Em linguística, como se chama a menor unidade de som capaz de distinguir significado entre palavras?|Morfema|Fonema|Grafema|Lexema|B
+EXPERT|Qual pintor neerlandês criou a obra A Ronda Noturna?|Rembrandt|Vermeer|Frans Hals|Rubens|A
+EXPERT|Qual dinastia chinesa governava quando Zheng He realizou suas grandes expedições marítimas?|Tang|Song|Ming|Qing|C
+EXPERT|Qual é o nome do limite de massa acima do qual uma anã branca não pode permanecer estável?|Limite de Roche|Limite de Chandrasekhar|Limite de Eddington|Raio de Schwarzschild|B
+EXPERT|Qual escritor argentino é autor da coletânea de contos Ficções?|Jorge Luis Borges|Julio Cortázar|Adolfo Bioy Casares|Ernesto Sabato|A
+EXPERT|Qual processo termodinâmico ocorre sem troca de calor com o ambiente?|Isotérmico|Isobárico|Adiabático|Isocórico|C
+EXPERT|Qual batalha de 1815 marcou a derrota final de Napoleão Bonaparte?|Austerlitz|Trafalgar|Waterloo|Leipzig|C
+EXPERT|Qual cientista introduziu o conceito de entropia na formulação da segunda lei da termodinâmica?|Rudolf Clausius|Max Planck|Ludwig Boltzmann|Sadi Carnot|A
