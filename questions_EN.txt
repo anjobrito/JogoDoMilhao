@@ -102,3 +102,40 @@ What is the name of the giant robot in "Pacific Rim"?|Gipsy Danger|Cherno Alpha|
 Who is the female lead in "Titanic"?|Rose|Jack|Cal|Molly|A
 Which movie features a magical school called Hogwarts?|Harry Potter|Percy Jackson|Twilight|The Chronicles of Narnia|A
 Who is the protagonist in "Black Panther"?|T'Challa|Killmonger|Shuri|Nakia|A
+# --- Difficulty bank (format: LEVEL|QUESTION|A|B|C|D|CORRECT) ---
+EASY|How many sides does a triangle have?|3|4|5|6|A
+EASY|Which planet do humans live on?|Mars|Earth|Venus|Jupiter|B
+EASY|How many minutes are in one hour?|30|45|60|90|C
+EASY|Which of these animals is a mammal?|Shark|Dolphin|Sardine|Octopus|B
+EASY|What is 9 x 7?|54|56|63|72|C
+EASY|On which continent is Brazil located?|Europe|South America|Africa|Asia|B
+EASY|Which instrument measures temperature?|Barometer|Thermometer|Hygrometer|Altimeter|B
+EASY|What color is produced by mixing blue and yellow?|Green|Purple|Orange|Brown|A
+EASY|Which of these is a physical state of water?|Solar plasma|Solid|Metal|Vacuum|B
+EASY|Who wrote the Harry Potter series?|J.K. Rowling|Agatha Christie|Virginia Woolf|Jane Austen|A
+EASY|What is Earth's natural satellite?|Moon|Sun|Mars|Venus|A
+EASY|Which Roman numeral represents ten?|V|X|L|C|B
+HARD|Which 1494 treaty divided newly explored lands between Portugal and Spain?|Treaty of Utrecht|Treaty of Tordesillas|Treaty of Madrid|Treaty of Versailles|B
+HARD|Which physicist formulated the equations that unified electricity and magnetism in the 19th century?|James Clerk Maxwell|Michael Faraday|Niels Bohr|Erwin Schrödinger|A
+HARD|Which element has atomic number 74?|Tungsten|Titanium|Tantalum|Tellurium|A
+HARD|Which civilization built Machu Picchu?|Aztec|Maya|Inca|Olmec|C
+HARD|Which philosopher wrote Critique of Pure Reason?|Immanuel Kant|David Hume|René Descartes|Baruch Spinoza|A
+HARD|Which scientist formulated the three laws of planetary motion?|Johannes Kepler|Tycho Brahe|Edwin Hubble|Blaise Pascal|A
+HARD|Which strait separates Asia from North America?|Gibraltar|Bering|Bosporus|Magellan|B
+HARD|Which composer wrote the Ninth Symphony featuring the Ode to Joy theme?|Mozart|Bach|Beethoven|Haydn|C
+HARD|Which African country was historically known as Abyssinia?|Ethiopia|Eritrea|Sudan|Somalia|A
+HARD|Which organelle is primarily responsible for ATP production during aerobic respiration?|Ribosome|Lysosome|Mitochondrion|Golgi apparatus|C
+HARD|Which Orwell novel depicts a farm governed by animals after a revolution?|1984|Animal Farm|Down and Out in Paris and London|Burmese Days|B
+HARD|Which scientist discovered the neutron in 1932?|James Chadwick|Ernest Rutherford|J.J. Thomson|Enrico Fermi|A
+EXPERT|Which quantum-mechanical principle states that position and momentum cannot both be known with arbitrary precision?|Pauli exclusion principle|Heisenberg uncertainty principle|Huygens principle|Archimedes principle|B
+EXPERT|Which mathematician proved Fermat's Last Theorem in 1994?|Andrew Wiles|John Nash|Grigori Perelman|Terence Tao|A
+EXPERT|Which Byzantine emperor commissioned the Corpus Juris Civilis?|Justinian I|Constantine XI|Theodosius I|Heraclius|A
+EXPERT|Which moon of Saturn has a dense nitrogen-rich atmosphere?|Enceladus|Mimas|Titan|Iapetus|C
+EXPERT|In linguistics, what is the smallest unit of sound that can distinguish meaning?|Morpheme|Phoneme|Grapheme|Lexeme|B
+EXPERT|Which Dutch painter created The Night Watch?|Rembrandt|Vermeer|Frans Hals|Rubens|A
+EXPERT|Which Chinese dynasty ruled during Zheng He's major maritime expeditions?|Tang|Song|Ming|Qing|C
+EXPERT|What is the mass threshold above which a white dwarf cannot remain stable called?|Roche limit|Chandrasekhar limit|Eddington limit|Schwarzschild radius|B
+EXPERT|Which Argentine writer authored the short-story collection Ficciones?|Jorge Luis Borges|Julio Cortázar|Adolfo Bioy Casares|Ernesto Sabato|A
+EXPERT|Which thermodynamic process occurs without heat exchange with the surroundings?|Isothermal|Isobaric|Adiabatic|Isochoric|C
+EXPERT|Which 1815 battle marked Napoleon Bonaparte's final defeat?|Austerlitz|Trafalgar|Waterloo|Leipzig|C
+EXPERT|Which scientist introduced entropy in his formulation of the second law of thermodynamics?|Rudolf Clausius|Max Planck|Ludwig Boltzmann|Sadi Carnot|A
