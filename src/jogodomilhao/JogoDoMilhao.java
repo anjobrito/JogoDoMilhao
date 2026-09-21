@@ -19,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,18 +40,28 @@ import java.util.*;
 public class JogoDoMilhao extends Application {
 
     // ------- Inner Question -------
+    public enum Difficulty {
+        EASY, MEDIUM, HARD, EXPERT
+    }
+
     public static class Question {
 
         String text, a, b, c, d;
         char correct;
+        Difficulty difficulty;
 
         public Question(String text, String a, String b, String c, String d, char correct) {
+            this(text, a, b, c, d, correct, Difficulty.MEDIUM);
+        }
+
+        public Question(String text, String a, String b, String c, String d, char correct, Difficulty difficulty) {
             this.text = text;
             this.a = a;
             this.b = b;
             this.c = c;
             this.d = d;
             this.correct = correct;
+            this.difficulty = difficulty;
         }
     }
 
@@ -194,6 +205,9 @@ public class JogoDoMilhao extends Application {
 
         private final String language;
         private List<Question> questions = new ArrayList<>();
+        private final List<Question> questionPool = new ArrayList<>();
+        private final Set<String> usedQuestionTexts = new HashSet<>();
+        private final Random random = new Random();
         private final List<Integer> prizes = new ArrayList<>();
         private int currentQuestion = 0;
         private int currentPrize = 0;
@@ -276,7 +290,8 @@ public class JogoDoMilhao extends Application {
             lblQuestion.setStyle("-fx-background-color: #c62828; -fx-background-radius: 15;");
             lblQuestion.setPadding(new Insets(15));
             lblQuestion.setAlignment(Pos.CENTER);
-            lblQuestion.setMaxWidth(1000);
+            lblQuestion.setMaxWidth(Double.MAX_VALUE);
+            lblQuestion.setMinHeight(Region.USE_PREF_SIZE);
 
             btnA = createAnswerButton("A)");
             btnB = createAnswerButton("B)");
@@ -390,6 +405,8 @@ public class JogoDoMilhao extends Application {
 
             rootGame.setCenter(center);
             sceneGame = new Scene(rootGame, 1100, 700);
+            sceneGame.widthProperty().addListener((obs, oldValue, newValue) -> applyResponsiveFonts());
+            sceneGame.heightProperty().addListener((obs, oldValue, newValue) -> applyResponsiveFonts());
             primaryStage.setScene(sceneGame);
             primaryStage.setTitle("Jogo do Milhão");
             primaryStage.setFullScreen(true);
@@ -414,7 +431,9 @@ public class JogoDoMilhao extends Application {
 
         private Button createAnswerButton(String text) {
             Button b = new Button(text);
-            b.setPrefWidth(800);
+            b.setMaxWidth(Double.MAX_VALUE);
+            b.setMinHeight(52);
+            b.setWrapText(true);
             b.setFont(Font.font("Arial Black", FontWeight.BOLD, 30));
             b.setAlignment(Pos.CENTER_LEFT);
             b.setTextFill(Color.WHITE);
@@ -439,11 +458,15 @@ public class JogoDoMilhao extends Application {
 
         private void loadQuestionsFromFile(String filename) {
             questions.clear();
+            questionPool.clear();
+            usedQuestionTexts.clear();
+
             Path p = Paths.get(System.getProperty("user.dir"), filename);
             if (!Files.exists(p)) {
                 showAlert("Erro", "Arquivo " + filename + " não encontrado no diretório do projeto!");
                 return;
             }
+
             try {
                 List<String> lines = Files.readAllLines(p);
                 for (String ln : lines) {
@@ -451,15 +474,105 @@ public class JogoDoMilhao extends Application {
                     if (ln.isEmpty() || ln.startsWith("#")) {
                         continue;
                     }
+
                     String[] parts = ln.split("\\|", -1);
-                    if (parts.length >= 6) {
-                        questions.add(new Question(parts[0].trim(), parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim().toUpperCase().charAt(0)));
+
+                    // New format:
+                    // DIFFICULTY|Question|A|B|C|D|CORRECT
+                    if (parts.length >= 7) {
+                        Difficulty difficulty = parseDifficulty(parts[0]);
+                        questionPool.add(new Question(
+                                parts[1].trim(),
+                                parts[2].trim(),
+                                parts[3].trim(),
+                                parts[4].trim(),
+                                parts[5].trim(),
+                                parts[6].trim().toUpperCase().charAt(0),
+                                difficulty
+                        ));
+                    } else if (parts.length >= 6) {
+                        // Backward compatibility with the original question bank.
+                        questionPool.add(new Question(
+                                parts[0].trim(),
+                                parts[1].trim(),
+                                parts[2].trim(),
+                                parts[3].trim(),
+                                parts[4].trim(),
+                                parts[5].trim().toUpperCase().charAt(0),
+                                Difficulty.MEDIUM
+                        ));
                     }
                 }
-                Collections.shuffle(questions);
+
+                buildQuestionsForGame();
             } catch (IOException e) {
                 showAlert("Erro", "Falha ao ler " + filename + ": " + e.getMessage());
             }
+        }
+
+        private Difficulty parseDifficulty(String value) {
+            try {
+                return Difficulty.valueOf(value.trim().toUpperCase());
+            } catch (Exception ignored) {
+                return Difficulty.MEDIUM;
+            }
+        }
+
+        private Difficulty difficultyForRound(int round) {
+            if (round <= 2) {
+                return Difficulty.EASY;
+            }
+            if (round <= 6) {
+                return Difficulty.MEDIUM;
+            }
+            if (round <= 8) {
+                return Difficulty.HARD;
+            }
+            return Difficulty.EXPERT;
+        }
+
+        private void buildQuestionsForGame() {
+            questions.clear();
+            usedQuestionTexts.clear();
+
+            for (int round = 0; round < prizes.size(); round++) {
+                Question selected = selectUnusedQuestion(difficultyForRound(round));
+                if (selected == null) {
+                    break;
+                }
+                questions.add(selected);
+            }
+        }
+
+        private Question selectUnusedQuestion(Difficulty difficulty) {
+            List<Question> candidates = new ArrayList<>();
+
+            for (Question q : questionPool) {
+                if (q.difficulty == difficulty && !usedQuestionTexts.contains(questionKey(q))) {
+                    candidates.add(q);
+                }
+            }
+
+            // Safe fallback: never repeat a question even if a difficulty pool is exhausted.
+            if (candidates.isEmpty()) {
+                for (Question q : questionPool) {
+                    if (!usedQuestionTexts.contains(questionKey(q))) {
+                        candidates.add(q);
+                    }
+                }
+            }
+
+            if (candidates.isEmpty()) {
+                return null;
+            }
+
+            Question selected = candidates.get(random.nextInt(candidates.size()));
+            usedQuestionTexts.add(questionKey(selected));
+            return selected;
+        }
+
+        private String questionKey(Question q) {
+            return q.text.trim().toLowerCase(Locale.ROOT);
         }
 
         /**
@@ -482,6 +595,7 @@ public class JogoDoMilhao extends Application {
             btnB.setText("B) " + q.b);
             btnC.setText("C) " + q.c);
             btnD.setText("D) " + q.d);
+            Platform.runLater(this::applyResponsiveFonts);
             lblPrize.setText("Prêmio atual: R$ " + String.format("%,d", currentPrize).replace(',', '.'));
             if (highlight) {
                 highlightPrize(index);
@@ -494,17 +608,19 @@ public class JogoDoMilhao extends Application {
             lastSelectedButton = null;
         }
 
-        // skipQuestion: advance question only, no transition, no prize change, restart timer
+        // Skip keeps the player in the same round and replaces only the current question.
+        // The replacement uses the same difficulty and can never repeat a question already seen.
         private void skipQuestion() {
             stopTimer();
-            int next = currentQuestion + 1;
-            if (next >= questions.size()) {
-                GameAlert.show("Não há mais perguntas para pular.");
+
+            Question replacement = selectUnusedQuestion(difficultyForRound(currentQuestion));
+            if (replacement == null) {
+                GameAlert.show("Não há mais perguntas disponíveis para esta partida.");
                 return;
             }
+
             resetButtonColors();
-            currentQuestion = next;
-            // show next question without highlighting (skip shouldn't change highlight)
+            questions.set(currentQuestion, replacement);
             showQuestion(currentQuestion, false);
         }
 
@@ -772,6 +888,66 @@ public class JogoDoMilhao extends Application {
                 }
                 onGameEnd.run();
             }
+        }
+
+        private void applyResponsiveFonts() {
+            if (sceneGame == null || lblQuestion == null) {
+                return;
+            }
+
+            double width = Math.max(sceneGame.getWidth(), 800);
+            double height = Math.max(sceneGame.getHeight(), 600);
+            double scale = Math.min(width / 1920.0, height / 1080.0);
+            scale = Math.max(0.72, Math.min(scale, 1.20));
+
+            double contentWidth = Math.max(520, width - 320);
+            double questionWidth = Math.min(contentWidth * 0.92, 1250);
+            double answerWidth = Math.min(contentWidth * 0.82, 1100);
+
+            fitLabelFont(lblQuestion, 34 * scale, 16, questionWidth, Math.max(100, height * 0.20));
+            fitButtonFont(btnA, 30 * scale, 14, answerWidth);
+            fitButtonFont(btnB, 30 * scale, 14, answerWidth);
+            fitButtonFont(btnC, 30 * scale, 14, answerWidth);
+            fitButtonFont(btnD, 30 * scale, 14, answerWidth);
+        }
+
+        private void fitLabelFont(Label label, double preferredSize, double minSize,
+                                  double maxWidth, double maxHeight) {
+            double size = Math.max(minSize, preferredSize);
+
+            while (size > minSize) {
+                Font font = Font.font("Arial Black", FontWeight.BOLD, size);
+                Text probe = new Text(label.getText());
+                probe.setFont(font);
+                probe.setWrappingWidth(Math.max(100, maxWidth - 30));
+
+                if (probe.getLayoutBounds().getHeight() <= maxHeight) {
+                    label.setFont(font);
+                    return;
+                }
+                size -= 1.0;
+            }
+
+            label.setFont(Font.font("Arial Black", FontWeight.BOLD, minSize));
+        }
+
+        private void fitButtonFont(Button button, double preferredSize, double minSize, double maxWidth) {
+            double size = Math.max(minSize, preferredSize);
+            double usableWidth = Math.max(200, maxWidth - 50);
+
+            while (size > minSize) {
+                Font font = Font.font("Arial Black", FontWeight.BOLD, size);
+                Text probe = new Text(button.getText());
+                probe.setFont(font);
+
+                if (probe.getLayoutBounds().getWidth() <= usableWidth) {
+                    button.setFont(font);
+                    return;
+                }
+                size -= 1.0;
+            }
+
+            button.setFont(Font.font("Arial Black", FontWeight.BOLD, minSize));
         }
 
         private void resetButtonColors() {
