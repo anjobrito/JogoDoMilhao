@@ -66,7 +66,6 @@ Qual é o nome do inventor da lâmpada?|Thomas Edison|Nikola Tesla|Alexander Gra
 Qual é o nome do escritor de "1984"?|George Orwell|Aldous Huxley|Ray Bradbury|Isaac Asimov|A
 Qual é o maior mamífero marinho?|Baleia-azul|Orca|Golfinho|Leão-marinho|A
 Qual é o nome da capital da Argentina?|Buenos Aires|Rosário|Córdoba|Mendoza|A
-Qual é o maior planeta do sistema solar?|Júpiter|Saturno|Netuno|Urano|A
 Qual é o nome da estrela mais próxima da Terra?|Sol|Sirius|Alpha Centauri|Vega|A
 Qual é o país com a maior produção de café?|Brasil|Colômbia|Etiópia|Vietnã|A
 Qual é o nome do maior deserto quente do mundo?|Sahara|Gobi|Kalahari|Sonora|A
@@ -75,7 +74,6 @@ Qual é o nome da maior cadeia montanhosa do mundo?|Himalaia|Andes|Alpes|Rockies
 Qual é o nome do processo de divisão celular?|Mitose|Meiose|Fissão|Fusão|A
 Qual é a principal função dos glóbulos vermelhos?|Transportar oxigênio|Produzir anticorpos|Coagular sangue|Defender contra vírus|A
 Qual é o nome do país conhecido como "Terra do Sol Nascente"?|Japão|China|Coreia do Sul|Tailândia|A
-Qual é o maior órgão do corpo humano?|Pele|Fígado|Coração|Rim|A
 Qual é o nome do autor de "Cem Anos de Solidão"?|Gabriel García Márquez|Pablo Neruda|Mario Vargas Llosa|Jorge Luis Borges|A
 Qual é o nome da capital do Chile?|Santiago|Valparaíso|Concepción|Antofagasta|A
 Qual é o nome do processo pelo qual a água se transforma em vapor?|Evaporação|Condensação|Precipitação|Sublimação|A
