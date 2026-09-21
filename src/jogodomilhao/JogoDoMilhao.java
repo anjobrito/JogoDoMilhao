@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -25,6 +26,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 
@@ -123,7 +126,7 @@ public class JogoDoMilhao extends Application {
     private void showStartScreen() {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(40));
-        root.setStyle("-fx-background-color: linear-gradient(to bottom, #001850, #000a24);");
+        applyStartScreenBackground(root);
         Label title = new Label("💰 JOGO DO MILHÃO 💰");
         title.setFont(Font.font("Arial Black", FontWeight.BOLD, 56));
         title.setTextFill(Color.GOLD);
@@ -176,6 +179,38 @@ public class JogoDoMilhao extends Application {
         }
     }
 
+    private void applyStartScreenBackground(BorderPane root) {
+        try {
+            URL backgroundUrl = getClass().getResource("/jogodomilhao/images/show_do_milhao_start.jpg");
+
+            if (backgroundUrl != null) {
+                Image image = new Image(backgroundUrl.toExternalForm());
+
+                BackgroundSize backgroundSize = new BackgroundSize(
+                        100, 100,
+                        true, true,
+                        false, true
+                );
+
+                BackgroundImage backgroundImage = new BackgroundImage(
+                        image,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.CENTER,
+                        backgroundSize
+                );
+
+                root.setBackground(new Background(backgroundImage));
+                return;
+            }
+        } catch (Exception e) {
+            System.out.println("Aviso: não foi possível carregar a imagem inicial: " + e.getMessage());
+        }
+
+        // Fallback used only if the image resource is not available.
+        root.setStyle("-fx-background-color: linear-gradient(to bottom, #001850, #000a24);");
+    }
+
     private Button createMenuButton(String text) {
         Button b = new Button(text);
         b.setFont(Font.font("Arial Black", FontWeight.BOLD, 30));
@@ -209,8 +244,11 @@ public class JogoDoMilhao extends Application {
         private final String language;
         private List<Question> questions = new ArrayList<>();
         private final List<Question> questionPool = new ArrayList<>();
+        private final Set<String> persistentUsedQuestionKeys = new HashSet<>();
+        private final Set<String> sessionReservedQuestionKeys = new HashSet<>();
         private final Random random = new Random();
         private final List<Integer> prizes = new ArrayList<>();
+        private String currentQuestionSetId = "pt";
         private int currentQuestion = 0;
         private int currentPrize = 0;
         private int skipsLeft = 2;
@@ -461,6 +499,8 @@ public class JogoDoMilhao extends Application {
         private void loadQuestionsFromFile(String filename) {
             questions.clear();
             questionPool.clear();
+            sessionReservedQuestionKeys.clear();
+            currentQuestionSetId = filename.toLowerCase(Locale.ROOT).contains("_en") ? "en" : "pt";
 
             Path p = Paths.get(System.getProperty("user.dir"), filename);
             if (!Files.exists(p)) {
@@ -505,6 +545,7 @@ public class JogoDoMilhao extends Application {
                     }
                 }
 
+                loadPersistentQuestionUsage();
                 buildQuestionsForGame();
             } catch (IOException e) {
                 showAlert("Erro", "Falha ao ler " + filename + ": " + e.getMessage());
@@ -534,7 +575,9 @@ public class JogoDoMilhao extends Application {
 
         private void buildQuestionsForGame() {
             questions.clear();
+            sessionReservedQuestionKeys.clear();
             resetQuestionUsage();
+            applyPersistentQuestionUsage();
 
             for (int round = 0; round < prizes.size(); round++) {
                 Question selected = selectUnusedQuestion(difficultyForRound(round));
@@ -546,21 +589,16 @@ public class JogoDoMilhao extends Application {
         }
 
         private Question selectUnusedQuestion(Difficulty difficulty) {
-            List<Question> candidates = new ArrayList<>();
+            List<Question> candidates = findUnusedCandidates(difficulty);
 
-            for (Question q : questionPool) {
-                if (q.difficulty == difficulty && !q.used) {
-                    candidates.add(q);
-                }
-            }
-
-            // Safe fallback: never repeat a question even if a difficulty pool is exhausted.
-            if (candidates.isEmpty()) {
-                for (Question q : questionPool) {
-                    if (!q.used) {
-                        candidates.add(q);
-                    }
-                }
+            /*
+             * If every question of this difficulty has already been shown in
+             * previous sessions, start a new cycle only for this difficulty.
+             * Questions already reserved in the current session are never reused.
+             */
+            if (candidates.isEmpty() && hasQuestionAvailableOutsideCurrentSession(difficulty)) {
+                resetPersistentUsageForDifficulty(difficulty);
+                candidates = findUnusedCandidates(difficulty);
             }
 
             if (candidates.isEmpty()) {
@@ -568,8 +606,33 @@ public class JogoDoMilhao extends Application {
             }
 
             Question selected = candidates.get(random.nextInt(candidates.size()));
-            markQuestionAsUsed(selected);
+            sessionReservedQuestionKeys.add(questionKey(selected));
             return selected;
+        }
+
+        private List<Question> findUnusedCandidates(Difficulty difficulty) {
+            List<Question> candidates = new ArrayList<>();
+
+            for (Question q : questionPool) {
+                String key = questionKey(q);
+                if (q.difficulty == difficulty
+                        && !q.used
+                        && !sessionReservedQuestionKeys.contains(key)) {
+                    candidates.add(q);
+                }
+            }
+
+            return candidates;
+        }
+
+        private boolean hasQuestionAvailableOutsideCurrentSession(Difficulty difficulty) {
+            for (Question q : questionPool) {
+                if (q.difficulty == difficulty
+                        && !sessionReservedQuestionKeys.contains(questionKey(q))) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void resetQuestionUsage() {
@@ -578,16 +641,95 @@ public class JogoDoMilhao extends Application {
             }
         }
 
+        private void applyPersistentQuestionUsage() {
+            for (Question q : questionPool) {
+                if (persistentUsedQuestionKeys.contains(questionKey(q))) {
+                    q.used = true;
+                }
+            }
+        }
+
         private void markQuestionAsUsed(Question selected) {
             String selectedKey = questionKey(selected);
+            persistentUsedQuestionKeys.add(selectedKey);
 
-            // Mark every identical entry as used as well. This protects the game
-            // even when the question bank accidentally contains duplicate text.
+            // Mark every identical entry as used as well.
             for (Question q : questionPool) {
                 if (questionKey(q).equals(selectedKey)) {
                     q.used = true;
                 }
             }
+
+            savePersistentQuestionUsage();
+        }
+
+        private void resetPersistentUsageForDifficulty(Difficulty difficulty) {
+            Set<String> difficultyKeys = new HashSet<>();
+
+            for (Question q : questionPool) {
+                if (q.difficulty == difficulty) {
+                    difficultyKeys.add(questionKey(q));
+                }
+            }
+
+            persistentUsedQuestionKeys.removeAll(difficultyKeys);
+
+            for (Question q : questionPool) {
+                if (q.difficulty == difficulty) {
+                    q.used = false;
+                }
+            }
+
+            savePersistentQuestionUsage();
+        }
+
+        private void loadPersistentQuestionUsage() {
+            persistentUsedQuestionKeys.clear();
+            Path historyFile = getQuestionHistoryFile();
+
+            if (!Files.exists(historyFile)) {
+                return;
+            }
+
+            try {
+                for (String line : Files.readAllLines(historyFile, StandardCharsets.UTF_8)) {
+                    String key = line.trim();
+                    if (!key.isEmpty()) {
+                        persistentUsedQuestionKeys.add(key);
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Aviso: não foi possível carregar o histórico de perguntas: " + e.getMessage());
+            }
+        }
+
+        private void savePersistentQuestionUsage() {
+            Path historyFile = getQuestionHistoryFile();
+
+            try {
+                Files.createDirectories(historyFile.getParent());
+
+                List<String> keys = new ArrayList<>(persistentUsedQuestionKeys);
+                Collections.sort(keys);
+
+                Files.write(
+                        historyFile,
+                        keys,
+                        StandardCharsets.UTF_8,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                );
+            } catch (IOException e) {
+                System.out.println("Aviso: não foi possível salvar o histórico de perguntas: " + e.getMessage());
+            }
+        }
+
+        private Path getQuestionHistoryFile() {
+            return Paths.get(
+                    System.getProperty("user.home"),
+                    ".jogodomilhao",
+                    "used_questions_" + currentQuestionSetId + ".txt"
+            );
         }
 
         private String questionKey(Question q) {
@@ -609,6 +751,10 @@ public class JogoDoMilhao extends Application {
                 return;
             }
             Question q = questions.get(index);
+
+            // A question is persisted only when it is actually shown to the player.
+            markQuestionAsUsed(q);
+
             lblQuestion.setText(q.text);
             btnA.setText("A) " + q.a);
             btnB.setText("B) " + q.b);
