@@ -2,6 +2,7 @@ package jogodomilhao;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -49,6 +50,7 @@ public class JogoDoMilhao extends Application {
         String text, a, b, c, d;
         char correct;
         Difficulty difficulty;
+        boolean used;
 
         public Question(String text, String a, String b, String c, String d, char correct) {
             this(text, a, b, c, d, correct, Difficulty.MEDIUM);
@@ -62,6 +64,7 @@ public class JogoDoMilhao extends Application {
             this.d = d;
             this.correct = correct;
             this.difficulty = difficulty;
+            this.used = false;
         }
     }
 
@@ -206,7 +209,6 @@ public class JogoDoMilhao extends Application {
         private final String language;
         private List<Question> questions = new ArrayList<>();
         private final List<Question> questionPool = new ArrayList<>();
-        private final Set<String> usedQuestionTexts = new HashSet<>();
         private final Random random = new Random();
         private final List<Integer> prizes = new ArrayList<>();
         private int currentQuestion = 0;
@@ -459,7 +461,6 @@ public class JogoDoMilhao extends Application {
         private void loadQuestionsFromFile(String filename) {
             questions.clear();
             questionPool.clear();
-            usedQuestionTexts.clear();
 
             Path p = Paths.get(System.getProperty("user.dir"), filename);
             if (!Files.exists(p)) {
@@ -533,7 +534,7 @@ public class JogoDoMilhao extends Application {
 
         private void buildQuestionsForGame() {
             questions.clear();
-            usedQuestionTexts.clear();
+            resetQuestionUsage();
 
             for (int round = 0; round < prizes.size(); round++) {
                 Question selected = selectUnusedQuestion(difficultyForRound(round));
@@ -548,7 +549,7 @@ public class JogoDoMilhao extends Application {
             List<Question> candidates = new ArrayList<>();
 
             for (Question q : questionPool) {
-                if (q.difficulty == difficulty && !usedQuestionTexts.contains(questionKey(q))) {
+                if (q.difficulty == difficulty && !q.used) {
                     candidates.add(q);
                 }
             }
@@ -556,7 +557,7 @@ public class JogoDoMilhao extends Application {
             // Safe fallback: never repeat a question even if a difficulty pool is exhausted.
             if (candidates.isEmpty()) {
                 for (Question q : questionPool) {
-                    if (!usedQuestionTexts.contains(questionKey(q))) {
+                    if (!q.used) {
                         candidates.add(q);
                     }
                 }
@@ -567,8 +568,26 @@ public class JogoDoMilhao extends Application {
             }
 
             Question selected = candidates.get(random.nextInt(candidates.size()));
-            usedQuestionTexts.add(questionKey(selected));
+            markQuestionAsUsed(selected);
             return selected;
+        }
+
+        private void resetQuestionUsage() {
+            for (Question q : questionPool) {
+                q.used = false;
+            }
+        }
+
+        private void markQuestionAsUsed(Question selected) {
+            String selectedKey = questionKey(selected);
+
+            // Mark every identical entry as used as well. This protects the game
+            // even when the question bank accidentally contains duplicate text.
+            for (Question q : questionPool) {
+                if (questionKey(q).equals(selectedKey)) {
+                    q.used = true;
+                }
+            }
         }
 
         private String questionKey(Question q) {
@@ -879,14 +898,73 @@ public class JogoDoMilhao extends Application {
                     errorPlayer.play();
                 } catch (Exception ignored) {
                 }
+
+                // Show both what the player selected and the correct answer.
                 btn.setStyle("-fx-background-color: #FF0000; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
+                Button correctButton = buttonForAnswer(q.correct);
+                if (correctButton != null) {
+                    correctButton.setDisable(false);
+                    correctButton.setStyle("-fx-background-color: #2E7D32; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 3;");
+                }
+
+                btnA.setDisable(true);
+                btnB.setDisable(true);
+                btnC.setDisable(true);
+                btnD.setDisable(true);
+
+                if (correctButton != null) {
+                    correctButton.setDisable(false);
+                }
+
                 int loss = (currentQuestion == 0) ? 0 : prizes.get(Math.max(0, currentQuestion - 1));
-                GameAlert.show("Resposta errada \n Fim de jogo. Você saiu com R$ " + loss);
+                String correctAnswer = getAnswerText(q);
+
                 if (terrorPlayer != null) try {
                     terrorPlayer.stop();
                 } catch (Exception ignored) {
                 }
-                onGameEnd.run();
+
+                // Keep the answer visible briefly before showing the game-over message.
+                PauseTransition reveal = new PauseTransition(Duration.seconds(2.0));
+                reveal.setOnFinished(event -> Platform.runLater(() -> {
+                    GameAlert.show(
+                            "Resposta errada!\n\n"
+                            + "A resposta correta era: " + correctAnswer
+                            + "\n\nVocê saiu com R$ " + loss
+                    );
+                    onGameEnd.run();
+                }));
+                reveal.play();
+            }
+        }
+
+        private Button buttonForAnswer(char answer) {
+            switch (Character.toUpperCase(answer)) {
+                case 'A':
+                    return btnA;
+                case 'B':
+                    return btnB;
+                case 'C':
+                    return btnC;
+                case 'D':
+                    return btnD;
+                default:
+                    return null;
+            }
+        }
+
+        private String getAnswerText(Question q) {
+            switch (Character.toUpperCase(q.correct)) {
+                case 'A':
+                    return "A) " + q.a;
+                case 'B':
+                    return "B) " + q.b;
+                case 'C':
+                    return "C) " + q.c;
+                case 'D':
+                    return "D) " + q.d;
+                default:
+                    return "";
             }
         }
 
