@@ -266,10 +266,10 @@ public class JogoDoMilhao extends Application {
                 String val = cmbLang.getValue();
                 if (val.equals("English")) {
                     questions.clear();
-                    loadQuestionsFromFile("questions_en.txt");
+                    loadQuestionsFromFile("questions_EN.txt");
                 } else {
                     questions.clear();
-                    loadQuestionsFromFile("questions_pt.txt");
+                    loadQuestionsFromFile("questions_PT.txt");
                 }
                 resetGame();
             });
@@ -452,7 +452,7 @@ public class JogoDoMilhao extends Application {
         }
 
         private void loadQuestions() {
-            String filename = language.equals("en") ? "questions_en.txt" : "questions_pt.txt";
+            String filename = language.equals("en") ? "questions_EN.txt" : "questions_PT.txt";
             loadQuestionsFromFile(filename);
         }
 
