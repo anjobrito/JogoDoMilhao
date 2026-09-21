@@ -832,20 +832,19 @@ public class JogoDoMilhao extends Application {
         }
 
         /**
-         * Quando o usuário clica em uma alternativa: - Primeiro clique: pausa
-         * timer, destaca (aguarda confirmação) - Segundo clique no mesmo botão:
-         * confirma e processa resposta
+         * Quando o usuário clica em uma alternativa:
+         * - Primeiro clique: apenas seleciona e pede confirmação; o timer continua.
+         * - Segundo clique no mesmo botão: confirma, para o timer e processa a resposta.
          */
         private void handleAnswerClick(Button btn, char chosen, Runnable onGameEnd) {
             playClick();
 
-            // Primeiro clique: pausa e marca aguardando confirmação
+            // Primeiro clique: apenas marca a alternativa. O relógio continua correndo.
             if (!awaitingConfirmation || lastSelectedButton != btn) {
-                stopTimer(); // PAUSA O RELÓGIO no primeiro clique
                 resetButtonColors();
                 lastSelectedButton = btn;
                 awaitingConfirmation = true;
-                btn.setStyle("-fx-background-color: #4CAF50; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
+                btn.setStyle("-fx-background-color: #F9A825; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
                 if (areYouSurePlayer != null) try {
                     areYouSurePlayer.stop();
                     areYouSurePlayer.play();
@@ -899,19 +898,19 @@ public class JogoDoMilhao extends Application {
                 } catch (Exception ignored) {
                 }
 
-                // Show both what the player selected and the correct answer.
-                btn.setStyle("-fx-background-color: #FF0000; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
+                // Mostra o erro e a resposta correta simultaneamente na própria tela.
+                // A alternativa escolhida fica cinza e a correta fica verde.
+                btn.setStyle("-fx-background-color: #616161; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
                 Button correctButton = buttonForAnswer(q.correct);
                 if (correctButton != null) {
-                    correctButton.setStyle("-fx-background-color: #2E7D32; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 3; -fx-opacity: 1;");
+                    correctButton.setStyle("-fx-background-color: #2E7D32; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 3;");
                 }
-                btn.setStyle("-fx-background-color: #FF0000; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2; -fx-opacity: 1;");
 
-                // Lock every answer while the result is being revealed.
-                btnA.setDisable(true);
-                btnB.setDisable(true);
-                btnC.setDisable(true);
-                btnD.setDisable(true);
+                // Bloqueia novos cliques sem aplicar o efeito visual de botão desabilitado.
+                btnA.setMouseTransparent(true);
+                btnB.setMouseTransparent(true);
+                btnC.setMouseTransparent(true);
+                btnD.setMouseTransparent(true);
 
                 int loss = (currentQuestion == 0) ? 0 : prizes.get(Math.max(0, currentQuestion - 1));
                 String correctAnswer = getAnswerText(q);
