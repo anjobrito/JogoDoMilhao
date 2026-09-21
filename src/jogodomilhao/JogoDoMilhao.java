@@ -903,18 +903,15 @@ public class JogoDoMilhao extends Application {
                 btn.setStyle("-fx-background-color: #FF0000; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
                 Button correctButton = buttonForAnswer(q.correct);
                 if (correctButton != null) {
-                    correctButton.setDisable(false);
-                    correctButton.setStyle("-fx-background-color: #2E7D32; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 3;");
+                    correctButton.setStyle("-fx-background-color: #2E7D32; -fx-background-radius: 20; -fx-border-color: gold; -fx-border-width: 3; -fx-opacity: 1;");
                 }
+                btn.setStyle("-fx-background-color: #FF0000; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2; -fx-opacity: 1;");
 
+                // Lock every answer while the result is being revealed.
                 btnA.setDisable(true);
                 btnB.setDisable(true);
                 btnC.setDisable(true);
                 btnD.setDisable(true);
-
-                if (correctButton != null) {
-                    correctButton.setDisable(false);
-                }
 
                 int loss = (currentQuestion == 0) ? 0 : prizes.get(Math.max(0, currentQuestion - 1));
                 String correctAnswer = getAnswerText(q);
