@@ -589,16 +589,27 @@ public class JogoDoMilhao extends Application {
         }
 
         private Question selectUnusedQuestion(Difficulty difficulty) {
+            /*
+             * Repetition policy:
+             * 1) Prefer an unseen question from the requested difficulty.
+             * 2) If that difficulty is exhausted, use an unseen question from the
+             *    nearest difficulty instead of repeating one already shown.
+             * 3) Only when the ENTIRE language bank has been shown do we start a
+             *    new global cycle.
+             */
             List<Question> candidates = findUnusedCandidates(difficulty);
 
-            /*
-             * If every question of this difficulty has already been shown in
-             * previous sessions, start a new cycle only for this difficulty.
-             * Questions already reserved in the current session are never reused.
-             */
-            if (candidates.isEmpty() && hasQuestionAvailableOutsideCurrentSession(difficulty)) {
-                resetPersistentUsageForDifficulty(difficulty);
+            if (candidates.isEmpty()) {
+                candidates = findUnusedCandidatesFromNearestDifficulty(difficulty);
+            }
+
+            if (candidates.isEmpty() && !hasAnyUnseenQuestion()) {
+                resetPersistentQuestionHistory();
                 candidates = findUnusedCandidates(difficulty);
+
+                if (candidates.isEmpty()) {
+                    candidates = findUnusedCandidatesFromNearestDifficulty(difficulty);
+                }
             }
 
             if (candidates.isEmpty()) {
@@ -616,7 +627,7 @@ public class JogoDoMilhao extends Application {
             for (Question q : questionPool) {
                 String key = questionKey(q);
                 if (q.difficulty == difficulty
-                        && !q.used
+                        && !persistentUsedQuestionKeys.contains(key)
                         && !sessionReservedQuestionKeys.contains(key)) {
                     candidates.add(q);
                 }
@@ -625,10 +636,42 @@ public class JogoDoMilhao extends Application {
             return candidates;
         }
 
-        private boolean hasQuestionAvailableOutsideCurrentSession(Difficulty difficulty) {
+        private List<Question> findUnusedCandidatesFromNearestDifficulty(Difficulty requested) {
+            Difficulty[] order;
+
+            switch (requested) {
+                case EASY:
+                    order = new Difficulty[]{Difficulty.MEDIUM, Difficulty.HARD, Difficulty.EXPERT};
+                    break;
+                case MEDIUM:
+                    order = new Difficulty[]{Difficulty.EASY, Difficulty.HARD, Difficulty.EXPERT};
+                    break;
+                case HARD:
+                    order = new Difficulty[]{Difficulty.MEDIUM, Difficulty.EXPERT, Difficulty.EASY};
+                    break;
+                case EXPERT:
+                    order = new Difficulty[]{Difficulty.HARD, Difficulty.MEDIUM, Difficulty.EASY};
+                    break;
+                default:
+                    order = new Difficulty[]{Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.EXPERT};
+                    break;
+            }
+
+            for (Difficulty candidateDifficulty : order) {
+                List<Question> candidates = findUnusedCandidates(candidateDifficulty);
+                if (!candidates.isEmpty()) {
+                    return candidates;
+                }
+            }
+
+            return new ArrayList<>();
+        }
+
+        private boolean hasAnyUnseenQuestion() {
             for (Question q : questionPool) {
-                if (q.difficulty == difficulty
-                        && !sessionReservedQuestionKeys.contains(questionKey(q))) {
+                String key = questionKey(q);
+                if (!persistentUsedQuestionKeys.contains(key)
+                        && !sessionReservedQuestionKeys.contains(key)) {
                     return true;
                 }
             }
@@ -643,43 +686,26 @@ public class JogoDoMilhao extends Application {
 
         private void applyPersistentQuestionUsage() {
             for (Question q : questionPool) {
-                if (persistentUsedQuestionKeys.contains(questionKey(q))) {
-                    q.used = true;
-                }
+                q.used = persistentUsedQuestionKeys.contains(questionKey(q));
             }
         }
 
         private void markQuestionAsUsed(Question selected) {
             String selectedKey = questionKey(selected);
-            persistentUsedQuestionKeys.add(selectedKey);
 
-            // Mark every identical entry as used as well.
-            for (Question q : questionPool) {
-                if (questionKey(q).equals(selectedKey)) {
-                    q.used = true;
+            if (persistentUsedQuestionKeys.add(selectedKey)) {
+                for (Question q : questionPool) {
+                    if (questionKey(q).equals(selectedKey)) {
+                        q.used = true;
+                    }
                 }
+                savePersistentQuestionUsage();
             }
-
-            savePersistentQuestionUsage();
         }
 
-        private void resetPersistentUsageForDifficulty(Difficulty difficulty) {
-            Set<String> difficultyKeys = new HashSet<>();
-
-            for (Question q : questionPool) {
-                if (q.difficulty == difficulty) {
-                    difficultyKeys.add(questionKey(q));
-                }
-            }
-
-            persistentUsedQuestionKeys.removeAll(difficultyKeys);
-
-            for (Question q : questionPool) {
-                if (q.difficulty == difficulty) {
-                    q.used = false;
-                }
-            }
-
+        private void resetPersistentQuestionHistory() {
+            persistentUsedQuestionKeys.clear();
+            resetQuestionUsage();
             savePersistentQuestionUsage();
         }
 
