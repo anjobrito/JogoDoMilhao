@@ -416,9 +416,10 @@ public class JogoDoMilhao extends Application {
             btnSkip.setOnAction(e -> {
                 playClick();
                 if (skipsLeft > 0) {
-                    skipsLeft--;
-                    btnSkip.setText("Pular (" + skipsLeft + ")");
-                    skipQuestion(); // novo método simples
+                    if (skipQuestion()) {
+                        skipsLeft--;
+                        btnSkip.setText("Pular (" + skipsLeft + ")");
+                    }
                 } else {
                     GameAlert.show("Você não tem mais pulos!");
                 }
@@ -801,18 +802,18 @@ public class JogoDoMilhao extends Application {
 
         // Skip keeps the player in the same round and replaces only the current question.
         // The replacement uses the same difficulty and can never repeat a question already seen.
-        private void skipQuestion() {
-            stopTimer();
-
+        private boolean skipQuestion() {
             Question replacement = selectUnusedQuestion(difficultyForRound(currentQuestion));
             if (replacement == null) {
                 GameAlert.show("Não há mais perguntas disponíveis para esta partida.");
-                return;
+                return false;
             }
 
+            stopTimer();
             resetButtonColors();
             questions.set(currentQuestion, replacement);
             showQuestion(currentQuestion, false);
+            return true;
         }
 
         // moveToNextQuestion (used by Próxima): keeps transition behavior (announces prizeNext)
