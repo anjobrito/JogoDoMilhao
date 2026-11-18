@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -139,7 +138,7 @@ public class JogoDoMilhao extends Application {
         Button btnExit = createMenuButton("❌ Sair");
         final ComboBox<String> cmbLang = new ComboBox<>();
         cmbLang.getItems().addAll("Português 🇧🇷", "English 🇺🇸");
-        cmbLang.setValue("Português 🇧🇷");
+        cmbLang.setValue("en".equals(chosenLanguage) ? "English 🇺🇸" : "Português 🇧🇷");
         cmbLang.setPrefWidth(260);
         cmbLang.setOnAction(e -> {
             playClick();
@@ -241,7 +240,7 @@ public class JogoDoMilhao extends Application {
     // -------------------- GameScreen --------------------
     private class GameScreen {
 
-        private final String language;
+        private String language;
         private List<Question> questions = new ArrayList<>();
         private final List<Question> questionPool = new ArrayList<>();
         private final Set<String> persistentUsedQuestionKeys = new HashSet<>();
@@ -261,7 +260,9 @@ public class JogoDoMilhao extends Application {
         private Label lblPrize;
         private Label lblQuestion;
         private Button btnA, btnB, btnC, btnD;
-        private Button btnFiftyRef, btnSkipRef, btnUniversitariosRef;
+        private Button btnFiftyRef, btnSkipRef, btnUniversitariosRef, btnExitRef;
+        private ComboBox<String> cmbLangRef;
+        private boolean roundActive;
         private ListView<String> prizeListView;
         private BorderPane rootGame;
         private Scene sceneGame;
@@ -301,16 +302,12 @@ public class JogoDoMilhao extends Application {
             ComboBox<String> cmbLang = new ComboBox<>();
             cmbLang.getItems().addAll("Português", "English");
             cmbLang.setValue(language.equals("en") ? "English" : "Português");
+            cmbLangRef = cmbLang;
             cmbLang.setOnAction(e -> {
                 playClick();
-                String val = cmbLang.getValue();
-                if (val.equals("English")) {
-                    questions.clear();
-                    loadQuestionsFromFile("questions_EN.txt");
-                } else {
-                    questions.clear();
-                    loadQuestionsFromFile("questions_PT.txt");
-                }
+                if (!roundActive && !questions.isEmpty()) return;
+                language = "English".equals(cmbLang.getValue()) ? "en" : "pt";
+                chosenLanguage = language;
                 resetGame();
             });
 
@@ -365,7 +362,7 @@ public class JogoDoMilhao extends Application {
             Button btnSkip = new Button("Pular (" + skipsLeft + ")");
             Button btnUniversitarios = new Button("🎓 Universitários");
             Button btnExit = new Button("Desistir");
-            Button btnNext = new Button("Próxima");
+            this.btnExitRef = btnExit;
 
             this.btnFiftyRef = btnFifty;
             this.btnSkipRef = btnSkip;
@@ -373,7 +370,7 @@ public class JogoDoMilhao extends Application {
 
             Region spacerBottom = new Region();
             HBox.setHgrow(spacerBottom, Priority.ALWAYS);
-            bottom.getChildren().addAll(btnFifty, btnSkip, btnUniversitarios, spacerBottom, btnExit, btnNext);
+            bottom.getChildren().addAll(btnFifty, btnSkip, btnUniversitarios, spacerBottom, btnExit);
 
             // Timer bar
             StackPane timerContainer = new StackPane();
@@ -401,24 +398,24 @@ public class JogoDoMilhao extends Application {
             btnD.setOnAction(e -> handleAnswerClick(btnD, 'D', onGameEnd));
 
             btnExit.setOnAction(e -> {
+                if (!roundActive && !questions.isEmpty()) return;
+                setRoundActive(false);
                 playClick();
                 stopTimer();
+                if (terrorPlayer != null) terrorPlayer.stop();
                 GameAlert.show("Você desistiu! \n Você saiu do jogo com R$ " + currentPrize);
                 onGameEnd.run();
             });
 
-            btnNext.setOnAction(e -> {
-                playClick();
-                moveToNextQuestion(); // mantém comportamento anterior (com transição)
-            });
-
             // SKIP: não muda prize, não mostra transição, só troca pergunta e reinicia timer
             btnSkip.setOnAction(e -> {
+                if (!roundActive) return;
                 playClick();
                 if (skipsLeft > 0) {
                     if (skipQuestion()) {
                         skipsLeft--;
                         btnSkip.setText("Pular (" + skipsLeft + ")");
+                        btnSkip.setDisable(skipsLeft == 0);
                     }
                 } else {
                     GameAlert.show("Você não tem mais pulos!");
@@ -426,6 +423,7 @@ public class JogoDoMilhao extends Application {
             });
 
             btnFifty.setOnAction(e -> {
+                if (!roundActive) return;
                 playClick();
                 if (fiftyUsed) {
                     GameAlert.show("Você já usou o 50:50!");
@@ -438,6 +436,7 @@ public class JogoDoMilhao extends Application {
 
             // Universitários: pausar timer e desabilitar
             btnUniversitarios.setOnAction(e -> {
+                if (!roundActive) return;
                 playClick();
                 stopTimer(); // PAUSA o cronômetro aqui
                 universitariosUsed = true;
@@ -461,13 +460,12 @@ public class JogoDoMilhao extends Application {
                 showTransitionScreen(firstRoundPrize, () -> showQuestion(0, true));
             } else {
                 lblQuestion.setText("Nenhuma pergunta encontrada no arquivo.");
+                setRoundActive(false);
+                cmbLangRef.setDisable(false);
+                btnExitRef.setDisable(false);
             }
 
-            sceneGame.setOnKeyPressed(e -> {
-                if (e.getCode() == KeyCode.ENTER) {
-                    moveToNextQuestion();
-                }
-            });
+
         }
 
         private Button createAnswerButton(String text) {
@@ -479,14 +477,14 @@ public class JogoDoMilhao extends Application {
             b.setAlignment(Pos.CENTER_LEFT);
             b.setTextFill(Color.WHITE);
             b.setStyle("-fx-background-color: #d32f2f; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;");
-            b.setOnMouseEntered(e -> b.setStyle("-fx-background-color: #f44336; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;"));
-            b.setOnMouseExited(e -> b.setStyle("-fx-background-color: #d32f2f; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;"));
+            b.setOnMouseEntered(e -> { if (roundActive && lastSelectedButton != b) b.setStyle("-fx-background-color: #f44336; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;"); });
+            b.setOnMouseExited(e -> { if (roundActive && lastSelectedButton != b) b.setStyle("-fx-background-color: #d32f2f; -fx-background-radius: 20; -fx-border-color: white; -fx-border-width: 2;"); });
             return b;
         }
 
         private void loadPrizes() {
             prizes.clear();
-            int[] v = {15000, 30000, 45000, 60000, 75000, 90000, 105000, 120000, 135000, 150000};
+            int[] v = {1000, 5000, 10000, 25000, 50000, 100000, 200000, 300000, 500000, 1000000};
             for (int x : v) {
                 prizes.add(x);
             }
@@ -580,12 +578,9 @@ public class JogoDoMilhao extends Application {
             resetQuestionUsage();
             applyPersistentQuestionUsage();
 
-            for (int round = 0; round < prizes.size(); round++) {
-                Question selected = selectUnusedQuestion(difficultyForRound(round));
-                if (selected == null) {
-                    break;
-                }
-                questions.add(selected);
+            Question first = selectUnusedQuestion(difficultyForRound(0));
+            if (first != null) {
+                questions.add(first);
             }
         }
 
@@ -604,7 +599,7 @@ public class JogoDoMilhao extends Application {
                 candidates = findUnusedCandidatesFromNearestDifficulty(difficulty);
             }
 
-            if (candidates.isEmpty() && !hasAnyUnseenQuestion()) {
+            if (candidates.isEmpty() && !hasAnyUnseenQuestion() && hasUnreservedQuestion()) {
                 resetPersistentQuestionHistory();
                 candidates = findUnusedCandidates(difficulty);
 
@@ -619,7 +614,7 @@ public class JogoDoMilhao extends Application {
 
             Question selected = candidates.get(random.nextInt(candidates.size()));
             sessionReservedQuestionKeys.add(questionKey(selected));
-            return selected;
+            return shuffleAnswers(selected);
         }
 
         private List<Question> findUnusedCandidates(Difficulty difficulty) {
@@ -671,12 +666,37 @@ public class JogoDoMilhao extends Application {
         private boolean hasAnyUnseenQuestion() {
             for (Question q : questionPool) {
                 String key = questionKey(q);
-                if (!persistentUsedQuestionKeys.contains(key)
-                        && !sessionReservedQuestionKeys.contains(key)) {
+                if (!persistentUsedQuestionKeys.contains(key)) {
                     return true;
                 }
             }
             return false;
+        }
+
+        private boolean hasUnreservedQuestion() {
+            for (Question q : questionPool) {
+                if (!sessionReservedQuestionKeys.contains(questionKey(q))) return true;
+            }
+            return false;
+        }
+
+        private Question shuffleAnswers(Question original) {
+            List<Integer> positions = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+            Collections.shuffle(positions, random);
+            String[] answers = {original.a, original.b, original.c, original.d};
+            char correct = (char) ('A' + positions.indexOf(original.correct - 'A'));
+            return new Question(original.text, answers[positions.get(0)],
+                    answers[positions.get(1)], answers[positions.get(2)],
+                    answers[positions.get(3)], correct, original.difficulty);
+        }
+
+        private void setRoundActive(boolean active) {
+            roundActive = active;
+            btnSkipRef.setDisable(!active || skipsLeft == 0);
+            btnFiftyRef.setDisable(!active || fiftyUsed);
+            btnUniversitariosRef.setDisable(!active || universitariosUsed);
+            btnExitRef.setDisable(!active);
+            cmbLangRef.setDisable(!active);
         }
 
         private void resetQuestionUsage() {
@@ -768,14 +788,12 @@ public class JogoDoMilhao extends Application {
          * seleciona na escada highlight == false -> NÃO altera highlight
          */
         private void showQuestion(int index, boolean highlight) {
+            if (index < 0 || index >= questions.size()) return;
             resetTimer();
             resetButtonColors();
             if (terrorPlayer != null) try {
                 terrorPlayer.play();
             } catch (Exception ignored) {
-            }
-            if (index < 0 || index >= questions.size()) {
-                return;
             }
             Question q = questions.get(index);
 
@@ -796,6 +814,10 @@ public class JogoDoMilhao extends Application {
             btnB.setDisable(false);
             btnC.setDisable(false);
             btnD.setDisable(false);
+            for (Button button : Arrays.asList(btnA, btnB, btnC, btnD)) {
+                button.setMouseTransparent(false);
+            }
+            setRoundActive(true);
             awaitingConfirmation = false;
             lastSelectedButton = null;
         }
@@ -816,69 +838,7 @@ public class JogoDoMilhao extends Application {
             return true;
         }
 
-        // moveToNextQuestion (used by Próxima): keeps transition behavior (announces prizeNext)
-        private void moveToNextQuestion() {
-            stopTimer();
-            int next = currentQuestion + 1;
-            if (next >= questions.size()) {
-                GameAlert.show("Não há mais perguntas.");
-                return;
-            }
-            int prizeNext = prizes.get(Math.min(next, prizes.size() - 1));
-            showTransitionScreen(prizeNext, () -> {
-                currentQuestion = next;
-                showQuestion(currentQuestion, true);
-            });
-        }
 
-        // answer used rarely; main flow is handleAnswerClick which has confirmation behavior
-        private void answer(char chosen, Runnable onGameEnd) {
-            if (questions.isEmpty()) {
-                return;
-            }
-            Question q = questions.get(currentQuestion);
-            if (q.correct == chosen) {
-                if (correctPlayer != null) try {
-                    correctPlayer.play();
-                } catch (Exception ignored) {
-                }
-                currentPrize = prizes.get(Math.min(currentQuestion, prizes.size() - 1));
-                lblPrize.setText("Prêmio atual: R$ " + String.format("%,d", currentPrize).replace(',', '.'));
-                highlightPrize(currentQuestion);
-                // after correct, announce next round prize or finish
-                int nextIndex = currentQuestion + 1;
-                if (nextIndex < questions.size() && currentPrize < 150000 ) {
-                    int prizeNext = prizes.get(Math.min(nextIndex, prizes.size() - 1));
-                    if (terrorPlayer != null) try {
-                        terrorPlayer.stop();
-                    } catch (Exception ignored) {
-                    }
-                    playTransitionSound();
-                    resetButtonColors();
-                    stopTimer();
-                    showTransitionScreen(prizeNext, () -> {
-                        currentQuestion = nextIndex;
-                        showQuestion(currentQuestion, true);
-                    });
-                } else {
-                    GameAlert.show("Parabéns! \n Você venceu o jogo com R$ " + currentPrize);
-                    onGameEnd.run();
-                }
-            } else {
-                if (errorPlayer != null) try {
-                    errorPlayer.play();
-                } catch (Exception ignored) {
-                }
-                if (terrorPlayer != null) try {
-                    terrorPlayer.stop();
-                } catch (Exception ignored) {
-                }
-                stopTimer();
-                int loss = (currentQuestion == 0) ? 0 : prizes.get(Math.max(0, currentQuestion - 1));
-                GameAlert.show(" Fim de jogo. \n Você saiu com R$ " + loss);
-                onGameEnd.run();
-            }
-        }
 
         private int guaranteedPrize(int questionIndex) {
             if (questionIndex >= 5) {
@@ -925,6 +885,7 @@ public class JogoDoMilhao extends Application {
 
         // showTransitionScreen: overlay + fade, plays transition sound
         private void showTransitionScreen(int valor, final Runnable after) {
+            setRoundActive(false);
             StackPane overlay = new StackPane();
             overlay.setStyle("-fx-background-color: rgba(0,0,0,0.85);");
             Label lbl = new Label(" Valendo R$ " + String.format("%,d", valor).replace(',', '.'));
@@ -978,29 +939,29 @@ public class JogoDoMilhao extends Application {
 
         // reset to initial state and show first question with transition
         private void resetGame() {
+            stopTimer();
+            setRoundActive(false);
+            awaitingConfirmation = false;
+            lastSelectedButton = null;
             currentQuestion = 0;
             currentPrize = 0;
+            lblPrize.setText("Prêmio atual: R$ 0");
             skipsLeft = 2;
             fiftyUsed = false;
             universitariosUsed = false;
             if (btnSkipRef != null) {
                 btnSkipRef.setText("Pular (" + skipsLeft + ")");
             }
-            if (btnSkipRef != null) {
-                btnSkipRef.setDisable(false);
-            }
-            if (btnFiftyRef != null) {
-                btnFiftyRef.setDisable(false);
-            }
-            if (btnUniversitariosRef != null) {
-                btnUniversitariosRef.setDisable(false);
-            }
+            setRoundActive(false);
             loadQuestions();
             if (!questions.isEmpty()) {
                 int firstRoundPrize = prizes.get(0);
                 showTransitionScreen(firstRoundPrize, () -> showQuestion(0, true));
             } else {
                 lblQuestion.setText("Nenhuma pergunta encontrada no arquivo.");
+                setRoundActive(false);
+                cmbLangRef.setDisable(false);
+                btnExitRef.setDisable(false);
             }
         }
 
@@ -1010,6 +971,7 @@ public class JogoDoMilhao extends Application {
          * - Segundo clique no mesmo botão: confirma, para o timer e processa a resposta.
          */
         private void handleAnswerClick(Button btn, char chosen, Runnable onGameEnd) {
+            if (!roundActive || btn.isDisabled()) return;
             playClick();
 
             // Primeiro clique: apenas marca a alternativa. O relógio continua correndo.
@@ -1029,6 +991,7 @@ public class JogoDoMilhao extends Application {
             // confirmação (segundo clique no mesmo botão)
             awaitingConfirmation = false;
             lastSelectedButton = null;
+            setRoundActive(false);
             stopTimer(); // assegura timer parado enquanto processa
             Question q = questions.get(currentQuestion);
 
@@ -1050,8 +1013,15 @@ public class JogoDoMilhao extends Application {
                 }
                 // prepara próxima rodada: anunciar o próximo prêmio (se houver)
                 int nextIndex = currentQuestion + 1;
-                if (nextIndex < questions.size() && currentPrize < 150000 ) {
-                    int prizeNext = prizes.get(Math.min(nextIndex, prizes.size() - 1));
+                if (nextIndex < prizes.size()) {
+                    Question next = selectUnusedQuestion(difficultyForRound(nextIndex));
+                    if (next == null) {
+                        GameAlert.show("Não há mais perguntas disponíveis. Você saiu com R$ " + currentPrize);
+                        onGameEnd.run();
+                        return;
+                    }
+                    questions.add(next);
+                    int prizeNext = prizes.get(nextIndex);
                     playTransitionSound();
                     resetButtonColors();
                     showTransitionScreen(prizeNext, () -> {
@@ -1253,6 +1223,8 @@ public class JogoDoMilhao extends Application {
         }
 
         private void onTimeExpired() {
+            if (!roundActive) return;
+            setRoundActive(false);
             if (errorPlayer != null) try {
                 errorPlayer.stop();
                 errorPlayer.play();
@@ -1263,7 +1235,9 @@ public class JogoDoMilhao extends Application {
             } catch (Exception ignored) {
             }
             Platform.runLater(() -> {
-                GameAlert.show(" Tempo esgotado \n ⏰ Tempo esgotado! Isso conta como resposta errada.");
+                GameAlert.show("Tempo esgotado! A resposta correta era: "
+                        + getAnswerText(questions.get(currentQuestion))
+                        + "\nVocê saiu com R$ " + currentPrize);
                 onGameEndRef.run();
             });
         }
